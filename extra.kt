@@ -1,67 +1,45 @@
+import kotlin.random.Random
+
 object Extra {
 
-    fun isPrime(num: Int): Boolean {
-        if (num < 2) return false
-        for (i in 2..kotlin.math.sqrt(num.toDouble()).toInt()) {
-            if (num % i == 0) return false
+    fun randomString(length: Int = 10): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return (1..length)
+            .map { chars.random() }
+            .joinToString("")
+    }
+
+    fun factorial(n: Int): Long = if (n == 0) 1 else n * factorial(n - 1)
+
+    fun isPalindrome(s: String): Boolean {
+        val str = s.toLowerCase().replace(" ", "")
+        return str == str.reversed()
+    }
+
+    fun <T> uniqueElements(list: List<T>): List<T> = list.distinct()
+
+    fun <T> flattenList(nestedList: List<List<T>>): List<T> = nestedList.flatten()
+
+    fun fibonacci(n: Int): Long {
+        var a = 0L
+        var b = 1L
+        repeat(n) {
+            val temp = a
+            a = b
+            b = temp + b
         }
-        return true
+        return a
     }
 
-    fun gcd(a: Int, b: Int): Int {
-        var x = a
-        var y = b
-        while (y != 0) {
-            val temp = y
-            y = x % y
-            x = temp
-        }
-        return x
-    }
+    fun countVowels(s: String): Int =
+        s.count { it.lowercaseChar() in "aeiou" }
 
-    fun lcm(a: Int, b: Int): Int = a * (b / gcd(a, b))
+    fun <K, V> mergeMaps(vararg maps: Map<K, V>): Map<K, V> =
+        maps.flatMap { it.entries }.associate { it.toPair() }
 
-    fun flattenMap(map: Map<String, Any?>, prefix: String = ""): Map<String, Any?> {
-        val result = mutableMapOf<String, Any?>()
-        for ((k, v) in map) {
-            val key = if (prefix.isEmpty()) k else "$prefix.$k"
-            if (v is Map<*, *>) {
-                @Suppress("UNCHECKED_CAST")
-                result.putAll(flattenMap(v as Map<String, Any?>, key))
-            } else {
-                result[key] = v
-            }
-        }
-        return result
-    }
+    fun reverseWords(sentence: String): String =
+        sentence.split(" ").joinToString(" ") { it.reversed() }
 
-    fun <T> mostCommon(list: List<T>): T? {
-        return list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
-    }
-
-    fun <T> transpose(matrix: List<List<T>>): List<List<T>> {
-        if (matrix.isEmpty()) return emptyList()
-        val cols = matrix[0].size
-        return (0 until cols).map { col -> matrix.map { row -> row[col] } }
-    }
-
-    fun camelToSnake(str: String): String =
-        str.replace(Regex("([A-Z])"), "_$1").lowercase()
-
-    fun swapCase(str: String): String =
-        str.map { if (it.isUpperCase()) it.lowercaseChar() else it.uppercaseChar() }.joinToString("")
-
-    fun nestedSum(list: List<Any>): Int {
-        var sum = 0
-        for (item in list) {
-            sum += when (item) {
-                is List<*> -> nestedSum(item.filterNotNull())
-                is Int -> item
-                else -> 0
-            }
-        }
-        return sum
-    }
-
-    fun digitSum(num: Int): Int = num.toString().filter { it.isDigit() }.sumOf { it.digitToInt() }
+    fun <T> chunkList(list: List<T>, chunkSize: Int): List<List<T>> =
+        list.chunked(chunkSize)
 }
