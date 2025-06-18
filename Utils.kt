@@ -2035,5 +2035,185 @@ object Utils {
     // 400. Get list of even numbers from 0 to n
     fun evenNumbersUpTo_400(n: Int): List<Int> =
         (0..n).filter { it % 2 == 0 }
+
+    // 401. Check if a number is even
+    fun isEven_401(n: Int): Boolean = n % 2 == 0
+
+    // 402. Check if a number is odd
+    fun isOdd_402(n: Int): Boolean = n % 2 != 0
+
+    // 403. Get the factorial of a number
+    fun factorial_403(n: Int): Long =
+        if (n <= 1) 1 else n * factorial_403(n - 1)
+
+    // 404. Reverse an integer
+    fun reverseInt_404(n: Int): Int =
+        n.toString().reversed().toInt()
+
+    // 405. Convert a number to binary
+    fun toBinary_405(n: Int): String =
+        Integer.toBinaryString(n)
+
+    // 406. Convert a binary string to decimal
+    fun binaryToDecimal_406(s: String): Int =
+        s.toInt(2)
+
+    // 407. Get sum of digits
+    fun sumDigits_407(n: Int): Int =
+        n.toString().map { it.toString().toInt() }.sum()
+
+    // 408. Get product of digits
+    fun productDigits_408(n: Int): Int =
+        n.toString().map { it.toString().toInt() }.reduce(Int::times)
+
+    // 409. Get a list of digits from number
+    fun digitsList_409(n: Int): List<Int> =
+        n.toString().map { it.toString().toInt() }
+
+    // 410. Check if number is palindrome
+    fun isPalindromeNumber_410(n: Int): Boolean =
+        n.toString() == n.toString().reversed()
+
+    // 411. Convert degrees to radians
+    fun degToRad_411(deg: Double): Double = Math.toRadians(deg)
+
+    // 412. Convert radians to degrees
+    fun radToDeg_412(rad: Double): Double = Math.toDegrees(rad)
+
+    // 413. Clamp a value between min and max
+    fun clamp_413(value: Int, min: Int, max: Int): Int =
+        value.coerceIn(min, max)
+
+    // 414. Get distance between two points
+    fun distance_414(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+        Math.hypot(x2 - x1, y2 - y1)
+
+    // 415. Find max of three numbers
+    fun maxOfThree_415(a: Int, b: Int, c: Int): Int =
+        maxOf(a, maxOf(b, c))
+
+    // 416. Find min of three numbers
+    fun minOfThree_416(a: Int, b: Int, c: Int): Int =
+        minOf(a, minOf(b, c))
+
+    // 417. Get absolute difference
+    fun absDiff_417(a: Int, b: Int): Int = Math.abs(a - b)
+
+    // 418. Convert Celsius to Fahrenheit
+    fun celsiusToFahrenheit_418(c: Double): Double = c * 9 / 5 + 32
+
+    // 419. Convert Fahrenheit to Celsius
+    fun fahrenheitToCelsius_419(f: Double): Double = (f - 32) * 5 / 9
+
+    // 420. Calculate compound interest
+    fun compoundInterest_420(p: Double, r: Double, t: Int): Double =
+        p * Math.pow(1 + r / 100, t.toDouble())
+
+    // 421. Find GCD using Euclidean algorithm
+    fun gcd_421(a: Int, b: Int): Int =
+        if (b == 0) a else gcd_421(b, a % b)
+
+    // 422. Find LCM using GCD
+    fun lcm_422(a: Int, b: Int): Int = a * b / gcd_421(a, b)
+
+    // 423. Check if a number is prime
+    fun isPrime_423(n: Int): Boolean =
+        if (n < 2) false else (2..Math.sqrt(n.toDouble()).toInt()).none { n % it == 0 }
+
+    // 424. Generate list of primes up to n
+    fun primesUpTo_424(n: Int): List<Int> =
+        (2..n).filter(::isPrime_423)
+
+    // 425. Sum of first N natural numbers
+    fun sumN_425(n: Int): Int = n * (n + 1) / 2
+
+    // 426. Get nth Fibonacci number
+    fun fibonacci_426(n: Int): Int =
+        if (n <= 1) n else fibonacci_426(n - 1) + fibonacci_426(n - 2)
+
+    // 427. Generate Fibonacci sequence of n terms
+    fun fibonacciSeq_427(n: Int): List<Int> =
+        generateSequence(Pair(0, 1)) { Pair(it.second, it.first + it.second) }
+            .map { it.first }
+            .take(n)
+            .toList()
+
+    // 428. Calculate simple interest
+    fun simpleInterest_428(p: Double, r: Double, t: Double): Double = (p * r * t) / 100
+
+    // 429. Check if number is Armstrong number
+    fun isArmstrong_429(n: Int): Boolean {
+        val digits = n.toString().map { it.toString().toInt() }
+        val power = digits.size
+        return digits.sumOf { Math.pow(it.toDouble(), power.toDouble()).toInt() } == n
+    }
+
+    // 430. Generate multiplication table
+    fun multiplicationTable_430(n: Int, upTo: Int = 10): List<String> =
+        (1..upTo).map { "$n x $it = ${n * it}" }
+
+    // 431. Get square of a number
+    fun square_431(n: Int): Int = n * n
+
+    // 432. Get cube of a number
+    fun cube_432(n: Int): Int = n * n * n
+
+    // 433. Count number of digits in integer
+    fun countDigits_433(n: Int): Int = n.toString().length
+
+    // 434. Check if number is even and divisible by 4
+    fun isEvenAndDivBy4_434(n: Int): Boolean = n % 2 == 0 && n % 4 == 0
+
+    // 435. Convert number to hex string
+    fun toHex_435(n: Int): String = Integer.toHexString(n)
+
+    // 436. Convert hex string to number
+    fun fromHex_436(s: String): Int = s.toInt(16)
+
+    // 437. Check if a number is in a given range
+    fun inRange_437(n: Int, start: Int, end: Int): Boolean = n in start..end
+
+    // 438. Count how many numbers in list are even
+    fun countEven_438(list: List<Int>): Int = list.count { it % 2 == 0 }
+
+    // 439. Find the largest odd number in a list
+    fun largestOdd_439(list: List<Int>): Int? = list.filter { it % 2 != 0 }.maxOrNull()
+
+    // 440. Reverse a list
+    fun <T> reverseList_440(list: List<T>): List<T> = list.reversed()
+
+    // 441. Remove duplicates from a list
+    fun <T> removeDuplicates_441(list: List<T>): List<T> = list.distinct()
+
+    // 442. Sort list in descending order
+    fun <T : Comparable<T>> sortDescending_442(list: List<T>): List<T> = list.sortedDescending()
+
+    // 443. Sort list by string length
+    fun sortByLength_443(list: List<String>): List<String> = list.sortedBy { it.length }
+
+    // 444. Check if string contains digits
+    fun containsDigit_444(s: String): Boolean = s.any { it.isDigit() }
+
+    // 445. Check if number is divisible by both 3 and 5
+    fun isDivisibleBy3And5_445(n: Int): Boolean = n % 3 == 0 && n % 5 == 0
+
+    // 446. Get character frequency map from list of strings
+    fun charFreqFromList_446(list: List<String>): Map<Char, Int> =
+        list.joinToString("").groupingBy { it }.eachCount()
+
+    // 447. Check if all elements are positive
+    fun allPositive_447(list: List<Int>): Boolean = list.all { it > 0 }
+
+    // 448. Get average of a list of numbers
+    fun average_448(list: List<Int>): Double =
+        if (list.isEmpty()) 0.0 else list.sum().toDouble() / list.size
+
+    // 449. Count how many elements are greater than given number
+    fun countGreaterThan_449(list: List<Int>, threshold: Int): Int =
+        list.count { it > threshold }
+
+    // 450. Capitalize every second word
+    fun capitalizeEverySecond_450(s: String): String =
+        s.split(" ").mapIndexed { i, w -> if (i % 2 == 1) w.uppercase() else w }.joinToString(" ")
 }
 
