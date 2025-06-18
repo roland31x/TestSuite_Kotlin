@@ -1,4 +1,3 @@
-package utils
 
 import java.util.*
 import kotlin.random.Random
@@ -2215,5 +2214,237 @@ object Utils {
     // 450. Capitalize every second word
     fun capitalizeEverySecond_450(s: String): String =
         s.split(" ").mapIndexed { i, w -> if (i % 2 == 1) w.uppercase() else w }.joinToString(" ")
+    
+     // 451. Convert list to comma-separated string
+    fun <T> listToCsv_451(list: List<T>): String = list.joinToString(",")
+
+    // 452. Check if a list contains only unique elements
+    fun <T> isUniqueList_452(list: List<T>): Boolean = list.size == list.toSet().size
+
+    // 453. Check if a string is an anagram of another
+    fun isAnagram_453(a: String, b: String): Boolean =
+        a.toCharArray().sorted() == b.toCharArray().sorted()
+
+    // 454. Get most frequent character in a string
+    fun mostFrequentChar_454(s: String): Char? =
+        s.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+
+    // 455. Filter out vowels from a string
+    fun removeVowels_455(s: String): String = s.filterNot { it.lowercaseChar() in "aeiou" }
+
+    // 456. Duplicate each element in list
+    fun <T> duplicateElements_456(list: List<T>): List<T> = list.flatMap { listOf(it, it) }
+
+    // 457. Check if a string contains only letters
+    fun isAlpha_457(s: String): Boolean = s.all { it.isLetter() }
+
+    // 458. Pad a string to fixed length with a character
+    fun padString_458(s: String, length: Int, padChar: Char = ' '): String = s.padEnd(length, padChar)
+
+    // 459. Repeat string n times
+    fun repeatString_459(s: String, times: Int): String = s.repeat(times)
+
+    // 460. Convert a list of Ints to a set of Strings
+    fun intListToStringSet_460(list: List<Int>): Set<String> = list.map { it.toString() }.toSet()
+
+    // 461. Replace null values in a list with default
+    fun <T> replaceNulls_461(list: List<T?>, default: T): List<T> = list.map { it ?: default }
+
+    // 462. Find common elements in two lists
+    fun <T> commonElements_462(a: List<T>, b: List<T>): List<T> = a.intersect(b.toSet()).toList()
+
+    // 463. Find elements in a not in b
+    fun <T> diffElements_463(a: List<T>, b: List<T>): List<T> = a.filterNot { it in b }
+
+    // 464. Zip two lists into pairs
+    fun <A, B> zipLists_464(a: List<A>, b: List<B>): List<Pair<A, B>> = a.zip(b)
+
+    // 465. Unzip list of pairs
+    fun <A, B> unzipPairs_465(pairs: List<Pair<A, B>>): Pair<List<A>, List<B>> = pairs.unzip()
+
+    // 466. Rotate list left by n
+    fun <T> rotateLeft_466(list: List<T>, n: Int): List<T> =
+        list.drop(n % list.size) + list.take(n % list.size)
+
+    // 467. Rotate list right by n
+    fun <T> rotateRight_467(list: List<T>, n: Int): List<T> =
+        list.takeLast(n % list.size) + list.dropLast(n % list.size)
+
+    // 468. Get random sample from list
+    fun <T> sample_468(list: List<T>, count: Int): List<T> = list.shuffled().take(count)
+
+    // 469. Chunk list into smaller lists of given size
+    fun <T> chunkList_469(list: List<T>, size: Int): List<List<T>> =
+        list.chunked(size)
+
+    // 470. Check if a number is a power of two
+    fun isPowerOfTwo_470(n: Int): Boolean = n > 0 && (n and (n - 1)) == 0
+
+    // 471. Get all factors of a number
+    fun factors_471(n: Int): List<Int> = (1..n).filter { n % it == 0 }
+
+    // 472. Find nth digit of Pi (approximate)
+    fun piDigit_472(n: Int): Int = Math.PI.toString().replace(".", "")[n - 1].digitToInt()
+
+    // 473. Find nth digit of e (approximate)
+    fun eDigit_473(n: Int): Int = Math.E.toString().replace(".", "")[n - 1].digitToInt()
+
+    // 474. Convert list of booleans to bit string
+    fun boolListToBits_474(list: List<Boolean>): String = list.joinToString("") { if (it) "1" else "0" }
+
+    // 475. Convert bit string to list of booleans
+    fun bitsToBoolList_475(bits: String): List<Boolean> = bits.map { it == '1' }
+
+    // 476. Count character occurrences in string
+    fun countChars_476(s: String): Map<Char, Int> = s.groupingBy { it }.eachCount()
+
+    // 477. Generate list of squares up to n
+    fun squareList_477(n: Int): List<Int> = (1..n).map { it * it }
+
+    // 478. Generate list of cubes up to n
+    fun cubeList_478(n: Int): List<Int> = (1..n).map { it * it * it }
+
+    // 479. Check if list is sorted ascending
+    fun <T : Comparable<T>> isSortedAsc_479(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first <= it.second }
+
+    // 480. Check if list is sorted descending
+    fun <T : Comparable<T>> isSortedDesc_480(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first >= it.second }
+
+    // 481. Replace all whitespace with underscore
+    fun replaceWhitespace_481(s: String): String = s.replace("\\s+".toRegex(), "_")
+
+    // 482. Capitalize first letter of each word
+    fun capitalizeWords_482(s: String): String =
+        s.split(" ").joinToString(" ") { it.replaceFirstChar { c -> c.uppercaseChar() } }
+
+    // 483. Repeat list n times
+    fun <T> repeatList_483(list: List<T>, times: Int): List<T> =
+        List(times) { list }.flatten()
+
+    // 484. Count number of vowels in string
+    fun countVowels_484(s: String): Int = s.count { it.lowercaseChar() in "aeiou" }
+
+    // 485. Convert list to map of index to value
+    fun <T> listToIndexedMap_485(list: List<T>): Map<Int, T> =
+        list.mapIndexed { index, value -> index to value }.toMap()
+
+    // 486. Get median from list of numbers
+    fun median_486(list: List<Int>): Double {
+        val sorted = list.sorted()
+        val size = sorted.size
+        return if (size % 2 == 1) sorted[size / 2].toDouble()
+        else (sorted[size / 2 - 1] + sorted[size / 2]) / 2.0
+    }
+
+    // 487. Get mode(s) from list
+    fun modes_487(list: List<Int>): List<Int> {
+        val freq = list.groupingBy { it }.eachCount()
+        val max = freq.values.maxOrNull() ?: return emptyList()
+        return freq.filter { it.value == max }.keys.toList()
+    }
+
+    // 488. Count number of words in string
+    fun countWords_488(s: String): Int = s.trim().split("\\s+".toRegex()).size
+
+    // 489. Swap case of string
+    fun swapCase_489(s: String): String = s.map {
+        if (it.isLowerCase()) it.uppercaseChar() else it.lowercaseChar()
+    }.joinToString("")
+
+    // 490. Count occurrences of element in list
+    fun <T> countOccurrences_490(list: List<T>, value: T): Int = list.count { it == value }
+
+    // 491. Shuffle a list randomly
+    fun <T> shuffleList_491(list: List<T>): List<T> = list.shuffled()
+
+    // 492. Drop every nth element
+    fun <T> dropEveryNth_492(list: List<T>, n: Int): List<T> =
+        list.filterIndexed { index, _ -> (index + 1) % n != 0 }
+
+    // 493. Insert value at every nth position
+    fun <T> insertEveryNth_493(list: List<T>, value: T, n: Int): List<T> =
+        list.flatMapIndexed { index, elem ->
+            if ((index + 1) % n == 0) listOf(elem, value) else listOf(elem)
+        }
+
+    // 494. Merge two sorted lists
+    fun mergeSorted_494(a: List<Int>, b: List<Int>): List<Int> =
+        (a + b).sorted()
+
+    // 495. Generate acronym from string
+    fun acronym_495(s: String): String = s.split(" ").mapNotNull { it.firstOrNull()?.uppercase() }.joinToString("")
+
+    // 496. Replace digits with words
+    fun replaceDigitsWithWords_496(s: String): String {
+        val map = mapOf(
+            '0' to "zero", '1' to "one", '2' to "two", '3' to "three",
+            '4' to "four", '5' to "five", '6' to "six", '7' to "seven",
+            '8' to "eight", '9' to "nine"
+        )
+        return s.map { map[it] ?: it.toString() }.joinToString("")
+    }
+
+    // 497. Interleave two lists
+    fun <T> interleave_497(a: List<T>, b: List<T>): List<T> =
+        a.zip(b) { x, y -> listOf(x, y) }.flatten() + a.drop(b.size) + b.drop(a.size)
+
+    // 498. Get longest word from string
+    fun longestWord_498(s: String): String =
+        s.split(" ").maxByOrNull { it.length } ?: ""
+
+    // 499. Check if parentheses are balanced
+    fun isBalancedParentheses_499(s: String): Boolean {
+        var count = 0
+        for (c in s) {
+            if (c == '(') count++
+            if (c == ')') count--
+            if (count < 0) return false
+        }
+        return count == 0
+    }
+
+    // 500. Remove consecutive duplicates from list
+    fun <T> removeConsecutiveDuplicates_500(list: List<T>): List<T> =
+        if (list.isEmpty()) list else list.fold(mutableListOf(list[0])) { acc, elem ->
+            if (elem != acc.last()) acc.add(elem)
+            acc
+        }
+
+    enum class CellType { WALL, PATH }
+
+    data class Cell(var row: Int, var col: Int, var type: CellType = CellType.WALL)
+
+    fun generateMaze(rows: Int, cols: Int): Array<Array<CellType>> {
+        val height = rows * 2 + 1
+        val width = cols * 2 + 1
+        val maze = Array(height) { Array(width) { CellType.WALL } }
+
+        fun carve(row: Int, col: Int) {
+            val directions = listOf(Pair(0, -1), Pair(0, 1), Pair(-1, 0), Pair(1, 0)).shuffled()
+            for ((dr, dc) in directions) {
+                val newRow = row + dr * 2
+                val newCol = col + dc * 2
+                if (newRow in 1 until height - 1 && newCol in 1 until width - 1 && maze[newRow][newCol] == CellType.WALL) {
+                    maze[row + dr][col + dc] = CellType.PATH
+                    maze[newRow][newCol] = CellType.PATH
+                    carve(newRow, newCol)
+                }
+            }
+        }
+
+        maze[1][1] = CellType.PATH
+        carve(1, 1)
+
+        return maze
+    }
+
+    fun printMaze(maze: Array<Array<CellType>>) {
+        for (row in maze) {
+            println(row.joinToString("") { if (it == CellType.WALL) "█" else " " })
+        }
+    }
+    
 }
 
