@@ -1315,5 +1315,725 @@ object Utils {
         x = x - y
         return Pair(x, y)
     }
+
+    // 251. Check if a number is prime (simple method)
+    fun isPrime_251(n: Int): Boolean {
+        if (n < 2) return false
+        for (i in 2..kotlin.math.sqrt(n.toDouble()).toInt()) {
+            if (n % i == 0) return false
+        }
+        return true
+    }
+
+    // 252. Compute GCD (Greatest Common Divisor) using Euclidean algorithm
+    fun gcd_252(a: Int, b: Int): Int {
+        var x = abs(a)
+        var y = abs(b)
+        while (y != 0) {
+            val temp = y
+            y = x % y
+            x = temp
+        }
+        return x
+    }
+
+    // 253. Compute LCM (Least Common Multiple)
+    fun lcm_253(a: Int, b: Int): Int =
+        abs(a * b) / gcd_252(a, b)
+
+    // 254. Reverse a list
+    fun <T> reverseList_254(list: List<T>): List<T> = list.reversed()
+
+    // 255. Convert a string to title case
+    fun toTitleCase_255(s: String): String =
+        s.split(" ").joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
+
+    // 256. Find the maximum element in a list
+    fun <T : Comparable<T>> maxElement_256(list: List<T>): T? =
+        list.maxOrNull()
+
+    // 257. Find the minimum element in a list
+    fun <T : Comparable<T>> minElement_257(list: List<T>): T? =
+        list.minOrNull()
+
+    // 258. Remove duplicates from a list preserving order
+    fun <T> removeDuplicates_258(list: List<T>): List<T> {
+        val seen = mutableSetOf<T>()
+        val result = mutableListOf<T>()
+        for (item in list) {
+            if (seen.add(item)) result.add(item)
+        }
+        return result
+    }
+
+    // 259. Check if a list is a palindrome
+    fun <T> isPalindrome_259(list: List<T>): Boolean =
+        list == list.reversed()
+
+    // 260. Calculate factorial recursively
+    fun factorial_260(n: Int): Long {
+        require(n >= 0) { "n must be non-negative" }
+        return if (n == 0) 1 else n * factorial_260(n - 1)
+    }
+
+    // 261. Merge two maps, summing values if keys collide
+    fun mergeMapsSum_261(map1: Map<String, Int>, map2: Map<String, Int>): Map<String, Int> {
+        val result = map1.toMutableMap()
+        for ((k, v) in map2) {
+            result[k] = result.getOrDefault(k, 0) + v
+        }
+        return result
+    }
+
+    // 262. Count words in a string using regex
+    fun wordCountRegex_262(s: String): Int =
+        Regex("\\b\\w+\\b").findAll(s).count()
+
+    // 263. Get the longest word in a string
+    fun longestWord_263(s: String): String? =
+        s.split(Regex("\\W+")).maxByOrNull { it.length }
+
+    // 264. Check if a string contains only alphabetic characters
+    fun isAlpha_264(s: String): Boolean =
+        s.all { it.isLetter() }
+
+    // 265. Flatten a list of nullable elements, removing nulls
+    fun <T> flattenNonNull_265(list: List<T?>): List<T> =
+        list.filterNotNull()
+
+    // 266. Generate a list of even numbers up to n
+    fun evensUpTo_266(n: Int): List<Int> =
+        (0..n).filter { it % 2 == 0 }
+
+    // 267. Find the sum of squares of a list
+    fun sumSquares_267(list: List<Int>): Int =
+        list.sumOf { it * it }
+
+    // 268. Convert list of integers to a comma-separated string
+    fun intListToCSV_268(list: List<Int>): String =
+        list.joinToString(",")
+
+    // 269. Convert CSV string to list of integers
+    fun csvToIntList_269(csv: String): List<Int> =
+        csv.split(",").mapNotNull { it.trim().toIntOrNull() }
+
+    // 270. Capitalize first character of a string
+    fun capitalizeFirst_270(s: String): String =
+        s.replaceFirstChar { it.uppercase() }
+
+    // 271. Check if a list contains an element
+    fun <T> containsElement_271(list: List<T>, element: T): Boolean =
+        list.contains(element)
+
+    // 272. Count frequency of each character in a string
+    fun charFrequency_272(s: String): Map<Char, Int> =
+        s.groupingBy { it }.eachCount()
+
+    // 273. Find index of the first occurrence of a character in string or -1 if none
+    fun indexOfChar_273(s: String, c: Char): Int =
+        s.indexOf(c)
+
+    // 274. Convert a string to snake_case
+    fun toSnakeCase_274(s: String): String =
+        s.trim().replace(Regex("\\s+"), "_").lowercase()
+
+    // 275. Convert a string to camelCase
+    fun toCamelCase_275(s: String): String {
+        val parts = s.trim().split(Regex("\\s+"))
+        return parts.firstOrNull()?.lowercase() + parts.drop(1).joinToString("") { it.capitalize() }
+    }
+
+    // 276. Remove all whitespace from a string
+    fun removeWhitespace_276(s: String): String =
+        s.replace("\\s".toRegex(), "")
+
+    // 277. Check if two strings are anagrams
+    fun areAnagrams_277(s1: String, s2: String): Boolean =
+        s1.lowercase().toList().sorted() == s2.lowercase().toList().sorted()
+
+    // 278. Convert a list of strings to uppercase
+    fun toUpperCaseList_278(list: List<String>): List<String> =
+        list.map { it.uppercase() }
+
+    // 279. Find max element in list of nullable Ints ignoring nulls
+    fun maxIgnoreNulls_279(list: List<Int?>): Int? =
+        list.filterNotNull().maxOrNull()
+
+    // 280. Calculate sum of digits in an integer
+    fun sumDigits_280(n: Int): Int {
+        var num = kotlin.math.abs(n)
+        var sum = 0
+        while (num > 0) {
+            sum += num % 10
+            num /= 10
+        }
+        return sum
+    }
+
+    // 281. Count number of vowels in a string
+    fun countVowels_281(s: String): Int {
+        val vowels = "aeiouAEIOU"
+        return s.count { vowels.contains(it) }
+    }
+
+    // 282. Remove duplicate characters from string preserving order
+    fun removeDuplicateChars_282(s: String): String {
+        val seen = mutableSetOf<Char>()
+        val sb = StringBuilder()
+        for (c in s) {
+            if (c !in seen) {
+                seen.add(c)
+                sb.append(c)
+            }
+        }
+        return sb.toString()
+    }
+
+    // 283. Reverse words in a sentence
+    fun reverseWords_283(s: String): String =
+        s.split(" ").reversed().joinToString(" ")
+
+    // 284. Calculate sum of all even numbers in a list
+    fun sumEven_284(list: List<Int>): Int =
+        list.filter { it % 2 == 0 }.sum()
+
+    // 285. Generate a list of squares from 1 to n
+    fun squaresUpTo_285(n: Int): List<Int> =
+        (1..n).map { it * it }
+
+    // 286. Check if a string contains only digits
+    fun isDigitsOnly_286(s: String): Boolean =
+        s.all { it.isDigit() }
+
+    // 287. Convert a map to JSON-like string (simple)
+    fun mapToJson_287(map: Map<String, String>): String =
+        map.entries.joinToString(prefix = "{", postfix = "}") { "\"${it.key}\":\"${it.value}\"" }
+
+    // 288. Extract digits from a string as list of Ints
+    fun extractDigits_288(s: String): List<Int> =
+        s.filter { it.isDigit() }.map { it.toString().toInt() }
+
+    // 289. Calculate average of a list of numbers
+    fun average_289(list: List<Double>): Double =
+        if (list.isEmpty()) 0.0 else list.sum() / list.size
+
+    // 290. Find second smallest element in a list
+    fun secondSmallest_290(list: List<Int>): Int? {
+        val distinctSorted = list.distinct().sorted()
+        return if (distinctSorted.size >= 2) distinctSorted[1] else null
+    }
+
+    // 291. Remove elements at even indices from list
+    fun <T> removeEvenIndices_291(list: List<T>): List<T> =
+        list.filterIndexed { index, _ -> index % 2 != 0 }
+
+    // 292. Generate a list of multiples of a number up to limit
+    fun multiplesUpTo_292(num: Int, limit: Int): List<Int> =
+        (1..limit).map { it * num }.filter { it <= limit }
+
+    // 293. Find longest common prefix of two strings
+    fun longestCommonPrefix_293(s1: String, s2: String): String {
+        val minLength = minOf(s1.length, s2.length)
+        for (i in 0 until minLength) {
+            if (s1[i] != s2[i]) return s1.substring(0, i)
+        }
+        return s1.substring(0, minLength)
+    }
+
+    // 294. Remove punctuation from a string
+    fun removePunctuation_294(s: String): String =
+        s.filter { it.isLetterOrDigit() || it.isWhitespace() }
+
+    // 295. Check if a string is lowercase
+    fun isLowerCase_295(s: String): Boolean =
+        s.all { !it.isLetter() || it.isLowerCase() }
+
+    // 296. Calculate sum of positive numbers in a list
+    fun sumPositive_296(list: List<Int>): Int =
+        list.filter { it > 0 }.sum()
+
+    // 297. Get distinct characters from a string
+    fun distinctChars_297(s: String): Set<Char> =
+        s.toSet()
+
+    // 298. Repeat a string n times
+    fun repeatString_298(s: String, n: Int): String =
+        s.repeat(n)
+
+    // 299. Count the number of uppercase letters in a string
+    fun countUppercase_299(s: String): Int =
+        s.count { it.isUpperCase() }
+
+    // 300. Find indices of all vowels in a string
+    fun vowelIndices_300(s: String): List<Int> {
+        val vowels = "aeiouAEIOU"
+        return s.mapIndexedNotNull { index, c -> if (vowels.contains(c)) index else null }
+    }
+
+    // 301. Convert a list of strings to lowercase
+    fun toLowerCaseList_301(list: List<String>): List<String> =
+        list.map { it.lowercase() }
+
+    // 302. Calculate sum of all odd numbers in a list
+    fun sumOdd_302(list: List<Int>): Int =
+        list.filter { it % 2 != 0 }.sum()
+
+    // 303. Find the shortest word in a string
+    fun shortestWord_303(s: String): String? =
+        s.split(Regex("\\W+")).minByOrNull { it.length }
+
+    // 304. Check if a string contains any digits
+    fun containsDigit_304(s: String): Boolean =
+        s.any { it.isDigit() }
+
+    // 305. Remove all vowels from a string
+    fun removeVowels_305(s: String): String {
+        val vowels = "aeiouAEIOU"
+        return s.filter { it !in vowels }
+    }
+
+    // 306. Generate a list of factorials up to n
+    fun factorialList_306(n: Int): List<Long> {
+        require(n >= 0)
+        val list = mutableListOf<Long>(1)
+        for (i in 1..n) {
+            list.add(list.last() * i)
+        }
+        return list
+    }
+
+    // 307. Count number of words starting with a specific character
+    fun countWordsStartingWith_307(s: String, ch: Char): Int =
+        s.split(Regex("\\W+")).count { it.startsWith(ch, ignoreCase = true) }
+
+    // 308. Check if two lists have any common elements
+    fun <T> haveCommonElements_308(list1: List<T>, list2: List<T>): Boolean =
+        list1.any { it in list2 }
+
+    // 309. Find the longest string in a list
+    fun longestString_309(list: List<String>): String? =
+        list.maxByOrNull { it.length }
+
+    // 310. Check if string is a valid email (basic)
+    fun isValidEmail_310(s: String): Boolean =
+        Regex("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$").matches(s)
+
+    // 311. Remove trailing whitespace from each line in a multiline string
+    fun trimTrailingWhitespace_311(s: String): String =
+        s.lines().joinToString("\n") { it.trimEnd() }
+
+    // 312. Repeat each character in a string n times
+    fun repeatChars_312(s: String, n: Int): String =
+        s.flatMap { List(n) { it } }.joinToString("")
+
+    // 313. Check if string contains only hexadecimal characters
+    fun isHex_313(s: String): Boolean =
+        s.matches(Regex("^[0-9a-fA-F]+$"))
+
+    // 314. Count the number of words in a string
+    fun countWords_314(s: String): Int =
+        s.split(Regex("\\W+")).filter { it.isNotBlank() }.size
+
+    // 315. Convert a list of Ints to a list of their squares
+    fun squareList_315(list: List<Int>): List<Int> =
+        list.map { it * it }
+
+    // 316. Calculate sum of all elements in a list
+    fun sumList_316(list: List<Int>): Int =
+        list.sum()
+
+    // 317. Find median of a list of numbers
+    fun median_317(list: List<Double>): Double? {
+        if (list.isEmpty()) return null
+        val sorted = list.sorted()
+        val mid = sorted.size / 2
+        return if (sorted.size % 2 == 0) (sorted[mid - 1] + sorted[mid]) / 2 else sorted[mid]
+    }
+
+    // 318. Check if a string is a palindrome ignoring case and spaces
+    fun isPalindromeIgnoreCase_318(s: String): Boolean {
+        val clean = s.lowercase().filter { !it.isWhitespace() }
+        return clean == clean.reversed()
+    }
+
+    // 319. Convert map keys to uppercase
+    fun mapKeysToUpper_319(map: Map<String, String>): Map<String, String> =
+        map.mapKeys { it.key.uppercase() }
+
+    // 320. Get list of characters from string
+    fun stringToCharList_320(s: String): List<Char> =
+        s.toList()
+
+    // 321. Convert list of Ints to list of Strings
+    fun intListToStringList_321(list: List<Int>): List<String> =
+        list.map { it.toString() }
+
+    // 322. Get unique elements from list preserving order
+    fun <T> uniqueElements_322(list: List<T>): List<T> {
+        val seen = mutableSetOf<T>()
+        return list.filter { seen.add(it) }
+    }
+
+    // 323. Check if a string starts with uppercase letter
+    fun startsWithUppercase_323(s: String): Boolean =
+        s.firstOrNull()?.isUpperCase() ?: false
+
+    // 324. Calculate product of elements in a list
+    fun productList_324(list: List<Int>): Long =
+        list.fold(1L) { acc, i -> acc * i }
+
+    // 325. Check if a string contains any special characters
+    fun containsSpecialChars_325(s: String): Boolean =
+        s.any { !it.isLetterOrDigit() && !it.isWhitespace() }
+
+    // 326. Get all substrings of a string
+    fun allSubstrings_326(s: String): List<String> {
+        val result = mutableListOf<String>()
+        for (i in s.indices) {
+            for (j in i+1..s.length) {
+                result.add(s.substring(i, j))
+            }
+        }
+        return result
+    }
+
+    // 327. Count the number of consonants in a string
+    fun countConsonants_327(s: String): Int {
+        val vowels = "aeiouAEIOU"
+        return s.count { it.isLetter() && it !in vowels }
+    }
+
+    // 328. Capitalize every word in a string
+    fun capitalizeWords_328(s: String): String =
+        s.split(" ").joinToString(" ") { it.replaceFirstChar { c -> c.uppercase() } }
+
+    // 329. Find difference between max and min in list
+    fun differenceMaxMin_329(list: List<Int>): Int? {
+        if (list.isEmpty()) return null
+        return list.maxOrNull()!! - list.minOrNull()!!
+    }
+
+    // 330. Convert a string to kebab-case
+    fun toKebabCase_330(s: String): String =
+        s.trim().lowercase().replace(Regex("\\s+"), "-")
+
+    // 331. Check if two lists are equal ignoring order
+    fun <T> equalsIgnoreOrder_331(list1: List<T>, list2: List<T>): Boolean =
+        list1.sortedBy { it.hashCode() } == list2.sortedBy { it.hashCode() }
+
+    // 332. Convert a string to a list of ASCII values
+    fun stringToAscii_332(s: String): List<Int> =
+        s.map { it.code }
+
+    // 333. Find indices of all occurrences of a character in a string
+    fun indicesOfChar_333(s: String, c: Char): List<Int> =
+        s.mapIndexedNotNull { index, ch -> if (ch == c) index else null }
+
+    // 334. Check if a number is even
+    fun isEven_334(n: Int): Boolean =
+        n % 2 == 0
+
+    // 335. Get first n elements of a list
+    fun <T> firstN_335(list: List<T>, n: Int): List<T> =
+        list.take(n)
+
+    // 336. Get last n elements of a list
+    fun <T> lastN_336(list: List<T>, n: Int): List<T> =
+        list.takeLast(n)
+
+    // 337. Count the number of lines in a string
+    fun countLines_337(s: String): Int =
+        s.lines().size
+
+    // 338. Remove duplicates from a list of strings ignoring case
+    fun removeDuplicatesIgnoreCase_338(list: List<String>): List<String> {
+        val seen = mutableSetOf<String>()
+        val result = mutableListOf<String>()
+        for (item in list) {
+            val lower = item.lowercase()
+            if (seen.add(lower)) result.add(item)
+        }
+        return result
+    }
+
+    // 339. Reverse the words in a sentence but keep word order intact
+    fun reverseWordsInSentence_339(s: String): String =
+        s.split(" ").map { it.reversed() }.joinToString(" ")
+
+    // 340. Get sum of ASCII values of characters in a string
+    fun sumAscii_340(s: String): Int =
+        s.sumOf { it.code }
+
+    // 341. Check if string contains only whitespace
+    fun isOnlyWhitespace_341(s: String): Boolean =
+        s.all { it.isWhitespace() }
+
+    // 342. Replace all digits in a string with a specific character
+    fun replaceDigits_342(s: String, replacement: Char): String =
+        s.map { if (it.isDigit()) replacement else it }.joinToString("")
+
+    // 343. Check if list contains null values
+    fun <T> containsNulls_343(list: List<T?>): Boolean =
+        list.any { it == null }
+
+    // 344. Find element with maximum length in a list of strings
+    fun maxLengthString_344(list: List<String>): String? =
+        list.maxByOrNull { it.length }
+
+    // 345. Check if two strings differ only in case
+    fun equalsIgnoreCase_345(s1: String, s2: String): Boolean =
+        s1.equals(s2, ignoreCase = true)
+
+    // 346. Generate list of prime numbers up to n
+    fun primesUpTo_346(n: Int): List<Int> {
+        val primes = mutableListOf<Int>()
+        for (i in 2..n) {
+            if (isPrime_251(i)) primes.add(i)
+        }
+        return primes
+    }
+
+    // 347. Calculate the sum of a range of integers inclusive
+    fun sumRange_347(start: Int, end: Int): Int {
+        val s = minOf(start, end)
+        val e = maxOf(start, end)
+        return (s..e).sum()
+    }
+
+    // 348. Check if string is a valid IPv4 address (basic)
+    fun isValidIPv4_348(ip: String): Boolean =
+        Regex("^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$").matches(ip)
+
+    // 349. Remove all non-ASCII characters from a string
+    fun removeNonAscii_349(s: String): String =
+        s.filter { it.code in 0..127 }
+
+    // 350. Get initials from a full name string
+    fun getInitials_350(name: String): String =
+        name.split(" ").mapNotNull { it.firstOrNull()?.uppercase() }.joinToString("")
+
+    // 351. Convert a string to alternating case (e.g., HeLlO)
+    fun toAlternatingCase_351(s: String): String =
+        s.mapIndexed { i, c -> if (i % 2 == 0) c.uppercase() else c.lowercase() }.joinToString("")
+
+    // 352. Count how many times a specific character appears in a string
+    fun countChar_352(s: String, c: Char): Int =
+        s.count { it == c }
+
+    // 353. Check if a list is sorted ascending
+    fun <T : Comparable<T>> isSortedAsc_353(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first <= it.second }
+
+    // 354. Find duplicate elements in a list
+    fun <T> findDuplicates_354(list: List<T>): List<T> =
+        list.groupBy { it }.filter { it.value.size > 1 }.keys.toList()
+
+    // 355. Convert a map to a query string
+    fun mapToQueryString_355(map: Map<String, String>): String =
+        map.entries.joinToString("&") { "${it.key}=${it.value}" }
+
+    // 356. Format a number to n decimal places
+    fun formatDecimal_356(number: Double, places: Int): String =
+        "%.${places}f".format(number)
+
+    // 357. Get all prefixes of a string
+    fun stringPrefixes_357(s: String): List<String> =
+        (1..s.length).map { s.substring(0, it) }
+
+    // 358. Get all suffixes of a string
+    fun stringSuffixes_358(s: String): List<String> =
+        (s.indices).map { s.substring(it) }
+
+    // 359. Check if list contains only unique values
+    fun <T> allUnique_359(list: List<T>): Boolean =
+        list.size == list.toSet().size
+
+    // 360. Remove all digits from a string
+    fun removeDigits_360(s: String): String =
+        s.filterNot { it.isDigit() }
+
+    // 361. Capitalize first and last letter of each word
+    fun capitalizeFirstLast_361(s: String): String =
+        s.split(" ").joinToString(" ") {
+            if (it.length <= 1) it.uppercase()
+            else it.first().uppercase() + it.substring(1, it.length - 1) + it.last().uppercase()
+        }
+
+    // 362. Rotate a list left by n positions
+    fun <T> rotateLeft_362(list: List<T>, n: Int): List<T> {
+        val shift = n % list.size
+        return list.drop(shift) + list.take(shift)
+    }
+
+    // 363. Rotate a list right by n positions
+    fun <T> rotateRight_363(list: List<T>, n: Int): List<T> {
+        val shift = n % list.size
+        return list.takeLast(shift) + list.dropLast(shift)
+    }
+
+    // 364. Filter strings containing a given substring
+    fun filterBySubstring_364(list: List<String>, substring: String): List<String> =
+        list.filter { it.contains(substring) }
+
+    // 365. Flatten a list of lists
+    fun <T> flattenList_365(nested: List<List<T>>): List<T> =
+        nested.flatten()
+
+    // 366. Group list of strings by their first character
+    fun groupByFirstChar_366(list: List<String>): Map<Char, List<String>> =
+        list.filter { it.isNotEmpty() }.groupBy { it.first() }
+
+    // 367. Count the number of times each character appears in a string
+    fun charFrequency_367(s: String): Map<Char, Int> =
+        s.groupingBy { it }.eachCount()
+
+    // 368. Replace all spaces in a string with a given character
+    fun replaceSpaces_368(s: String, replacement: Char): String =
+        s.replace(' ', replacement)
+
+    // 369. Convert a string to title case
+    fun toTitleCase_369(s: String): String =
+        s.split(" ").joinToString(" ") { it.lowercase().replaceFirstChar { c -> c.uppercase() } }
+
+    // 370. Check if a string is alphanumeric
+    fun isAlphanumeric_370(s: String): Boolean =
+        s.all { it.isLetterOrDigit() }
+
+    // 371. Convert seconds to HH:mm:ss format
+    fun secondsToTime_371(seconds: Int): String {
+        val h = seconds / 3600
+        val m = (seconds % 3600) / 60
+        val s = seconds % 60
+        return "%02d:%02d:%02d".format(h, m, s)
+    }
+
+    // 372. Get all distinct characters from a string
+    fun distinctChars_372(s: String): List<Char> =
+        s.toSet().toList()
+
+    // 373. Pad a string to a specific length with a character
+    fun padString_373(s: String, length: Int, padChar: Char): String =
+        s.padEnd(length, padChar)
+
+    // 374. Count the number of vowels in a string
+    fun countVowels_374(s: String): Int =
+        s.count { it.lowercaseChar() in "aeiou" }
+
+    // 375. Check if all elements in a list are equal
+    fun <T> allElementsEqual_375(list: List<T>): Boolean =
+        list.distinct().size <= 1
+
+    // 376. Interleave two lists
+    fun <T> interleaveLists_376(list1: List<T>, list2: List<T>): List<T> =
+        list1.zip(list2).flatMap { listOf(it.first, it.second) } + list1.drop(list2.size) + list2.drop(list1.size)
+
+    // 377. Get the mode (most frequent) of a list
+    fun <T> mode_377(list: List<T>): T? =
+        list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+
+    // 378. Check if a number is a perfect square
+    fun isPerfectSquare_378(n: Int): Boolean {
+        val root = kotlin.math.sqrt(n.toDouble()).toInt()
+        return root * root == n
+    }
+
+    // 379. Convert a list of booleans to binary string
+    fun boolListToBinary_379(list: List<Boolean>): String =
+        list.joinToString("") { if (it) "1" else "0" }
+
+    // 380. Remove punctuation from a string
+    fun removePunctuation_380(s: String): String =
+        s.filter { it.isLetterOrDigit() || it.isWhitespace() }
+
+    // 381. Join list of strings with a custom delimiter
+    fun joinWithDelimiter_381(list: List<String>, delimiter: String): String =
+        list.joinToString(delimiter)
+
+    // 382. Get second highest number in a list
+    fun secondHighest_382(list: List<Int>): Int? =
+        list.distinct().sortedDescending().getOrNull(1)
+
+    // 383. Check if string ends with a digit
+    fun endsWithDigit_383(s: String): Boolean =
+        s.lastOrNull()?.isDigit() ?: false
+
+    // 384. Count words of a certain length in a string
+    fun countWordsOfLength_384(s: String, length: Int): Int =
+        s.split(Regex("\\W+")).count { it.length == length }
+
+    // 385. Find longest common prefix in list of strings
+    fun longestCommonPrefix_385(strings: List<String>): String {
+        if (strings.isEmpty()) return ""
+        var prefix = strings[0]
+        for (str in strings.drop(1)) {
+            while (!str.startsWith(prefix)) {
+                prefix = prefix.dropLast(1)
+                if (prefix.isEmpty()) return ""
+            }
+        }
+        return prefix
+    }
+
+    // 386. Remove elements from a list based on a predicate
+    fun <T> removeIf_386(list: List<T>, predicate: (T) -> Boolean): List<T> =
+        list.filterNot(predicate)
+
+    // 387. Get elements that appear only once in a list
+    fun <T> uniqueOnly_387(list: List<T>): List<T> =
+        list.groupBy { it }.filterValues { it.size == 1 }.keys.toList()
+
+    // 388. Check if all characters in string are lowercase
+    fun isAllLowerCase_388(s: String): Boolean =
+        s.all { it.isLowerCase() }
+
+    // 389. Get the average word length in a string
+    fun averageWordLength_389(s: String): Double {
+        val words = s.split(Regex("\\W+")).filter { it.isNotBlank() }
+        return if (words.isEmpty()) 0.0 else words.sumOf { it.length }.toDouble() / words.size
+    }
+
+    // 390. Convert list of string numbers to integers
+    fun stringListToInt_390(list: List<String>): List<Int> =
+        list.mapNotNull { it.toIntOrNull() }
+
+    // 391. Count capital letters in a string
+    fun countUpperCase_391(s: String): Int =
+        s.count { it.isUpperCase() }
+
+    // 392. Replace multiple spaces with a single space
+    fun normalizeSpaces_392(s: String): String =
+        s.replace(Regex("\\s+"), " ")
+
+    // 393. Remove surrounding quotes from a string
+    fun removeSurroundingQuotes_393(s: String): String =
+        s.trim().removeSurrounding("\"")
+
+    // 394. Format a number with commas (e.g. 1,000)
+    fun formatWithCommas_394(n: Int): String =
+        "%,d".format(n)
+
+    // 395. Return all words of a string that start with a capital letter
+    fun capitalizedWords_395(s: String): List<String> =
+        s.split(Regex("\\W+")).filter { it.firstOrNull()?.isUpperCase() == true }
+
+    // 396. Check if a string is a valid Java identifier
+    fun isValidIdentifier_396(s: String): Boolean =
+        s.matches(Regex("[a-zA-Z_][a-zA-Z0-9_]*"))
+
+    // 397. Get last word in a sentence
+    fun lastWord_397(s: String): String =
+        s.trim().split(Regex("\\s+")).lastOrNull() ?: ""
+
+    // 398. Remove all non-letter characters from string
+    fun removeNonLetters_398(s: String): String =
+        s.filter { it.isLetter() }
+
+    // 399. Truncate a string to a maximum length and append "..."
+    fun truncateWithEllipsis_399(s: String, maxLength: Int): String =
+        if (s.length <= maxLength) s else s.take(maxLength - 3) + "..."
+
+    // 400. Get list of even numbers from 0 to n
+    fun evenNumbersUpTo_400(n: Int): List<Int> =
+        (0..n).filter { it % 2 == 0 }
 }
 
