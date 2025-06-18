@@ -696,5 +696,320 @@ object Utils {
         val s = seconds % 60
         return "%02d:%02d:%02d".format(h, m, s)
     }
+
+    // 151. Convert a list of strings to a map of string length -> list of strings with that length
+    fun groupByLength_151(list: List<String>): Map<Int, List<String>> =
+        list.groupBy { it.length }
+
+    // 152. Find the mode (most frequent element) in a list
+    fun <T> mode_152(list: List<T>): T? =
+        list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+
+    // 153. Check if a string is a valid email (simple regex)
+    fun isValidEmail_153(email: String): Boolean =
+        Regex("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$").matches(email)
+
+    // 154. Merge two sorted lists into one sorted list
+    fun mergeSorted_154(list1: List<Int>, list2: List<Int>): List<Int> {
+        val result = mutableListOf<Int>()
+        var i = 0
+        var j = 0
+        while (i < list1.size && j < list2.size) {
+            if (list1[i] <= list2[j]) {
+                result.add(list1[i])
+                i++
+            } else {
+                result.add(list2[j])
+                j++
+            }
+        }
+        while (i < list1.size) {
+            result.add(list1[i])
+            i++
+        }
+        while (j < list2.size) {
+            result.add(list2[j])
+            j++
+        }
+        return result
+    }
+
+    // 155. Flatten a map of lists to a list of pairs (key, value)
+    fun <K, V> flattenMap_155(map: Map<K, List<V>>): List<Pair<K, V>> =
+        map.flatMap { (k, vs) -> vs.map { v -> k to v } }
+
+    // 156. Calculate factorial of n (recursive)
+    fun factorial_156(n: Int): Long = when {
+        n < 0 -> throw IllegalArgumentException("Negative number")
+        n == 0 -> 1
+        else -> n * factorial_156(n - 1)
+    }
+
+    // 157. Check if a list is sorted ascending
+    fun <T: Comparable<T>> isSortedAscending_157(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first <= it.second }
+
+    // 158. Check if a list is sorted descending
+    fun <T: Comparable<T>> isSortedDescending_158(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first >= it.second }
+
+    // 159. Find the longest common prefix of a list of strings
+    fun longestCommonPrefix_159(list: List<String>): String {
+        if (list.isEmpty()) return ""
+        val shortest = list.minByOrNull { it.length } ?: ""
+        for (i in shortest.indices) {
+            val c = shortest[i]
+            if (list.any { it[i] != c }) return shortest.substring(0, i)
+        }
+        return shortest
+    }
+
+    // 160. Convert camelCase string to snake_case
+    fun camelToSnake_160(s: String): String =
+        s.replace(Regex("([a-z])([A-Z])"), "$1_$2").lowercase()
+
+    // 161. Convert snake_case string to camelCase
+    fun snakeToCamel_161(s: String): String {
+        val parts = s.split('_')
+        return parts.first() + parts.drop(1).joinToString("") { it.capitalize() }
+    }
+
+    // 162. Compute the nth Fibonacci number (iterative)
+    fun fibonacci_162(n: Int): Long {
+        if (n < 0) throw IllegalArgumentException("Negative index")
+        var a = 0L
+        var b = 1L
+        for (i in 0 until n) {
+            val tmp = a
+            a = b
+            b += tmp
+        }
+        return a
+    }
+
+    // 163. Remove duplicate characters from a string keeping order
+    fun removeDuplicateChars_163(s: String): String {
+        val seen = mutableSetOf<Char>()
+        val result = StringBuilder()
+        for (c in s) {
+            if (c !in seen) {
+                seen.add(c)
+                result.append(c)
+            }
+        }
+        return result.toString()
+    }
+
+    // 164. Convert a list of integers to a hex string (e.g. [255, 0] -> "FF00")
+    fun intListToHex_164(list: List<Int>): String =
+        list.joinToString("") { it.toString(16).padStart(2, '0').uppercase() }
+
+    // 165. Convert hex string to list of integers (e.g. "FF00" -> [255, 0])
+    fun hexToIntList_165(hex: String): List<Int> {
+        val cleaned = hex.trim()
+        require(cleaned.length % 2 == 0) { "Hex string length must be even" }
+        return (0 until cleaned.length step 2).map {
+            cleaned.substring(it, it + 2).toInt(16)
+        }
+    }
+
+    // 166. Calculate the Euclidean distance between two points
+    fun euclideanDistance_166(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+        kotlin.math.sqrt((x2 - x1).pow(2) + (y2 - y1).pow(2))
+
+    // 167. Calculate n choose k (binomial coefficient)
+    fun nChooseK_167(n: Int, k: Int): Long {
+        if (k < 0 || k > n) return 0
+        var result = 1L
+        for (i in 1..k) {
+            result = result * (n - i + 1) / i
+        }
+        return result
+    }
+
+    // 168. Generate all permutations of a list (recursive)
+    fun <T> permutations_168(list: List<T>): List<List<T>> {
+        if (list.isEmpty()) return listOf(emptyList())
+        val result = mutableListOf<List<T>>()
+        for (i in list.indices) {
+            val element = list[i]
+            val rest = list.take(i) + list.drop(i + 1)
+            for (perm in permutations_168(rest)) {
+                result.add(listOf(element) + perm)
+            }
+        }
+        return result
+    }
+
+    // 169. Check if a string contains only alphabetic letters
+    fun isAlphabetic_169(s: String): Boolean = s.all { it.isLetter() }
+
+    // 170. Convert a string to Pig Latin (simple version)
+    fun toPigLatin_170(word: String): String {
+        val vowels = "aeiouAEIOU"
+        if (word.isEmpty()) return word
+        return if (vowels.contains(word[0])) {
+            word + "way"
+        } else {
+            val firstVowelIndex = word.indexOfFirst { vowels.contains(it) }
+            if (firstVowelIndex == -1) word + "ay"
+            else word.substring(firstVowelIndex) + word.substring(0, firstVowelIndex) + "ay"
+        }
+    }
+
+    // 171. Reverse a list recursively
+    fun <T> reverseList_171(list: List<T>): List<T> =
+        if (list.isEmpty()) list else reverseList_171(list.drop(1)) + list.first()
+
+    // 172. Check if a number is even
+    fun isEven_172(n: Int): Boolean = n % 2 == 0
+
+    // 173. Check if a number is odd
+    fun isOdd_173(n: Int): Boolean = n % 2 != 0
+
+    // 174. Generate a random alphanumeric string of given length
+    fun randomAlphaNumeric_174(length: Int): String {
+        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return (1..length).map { chars.random() }.joinToString("")
+    }
+
+    // 175. Calculate the sum of digits in an integer
+    fun sumOfDigits_175(n: Int): Int {
+        var num = kotlin.math.abs(n)
+        var sum = 0
+        while (num > 0) {
+            sum += num % 10
+            num /= 10
+        }
+        return sum
+    }
+
+    // 176. Find the GCD of two numbers using Euclid's algorithm
+    fun gcd_176(a: Int, b: Int): Int {
+        var x = kotlin.math.abs(a)
+        var y = kotlin.math.abs(b)
+        while (y != 0) {
+            val temp = y
+            y = x % y
+            x = temp
+        }
+        return x
+    }
+
+    // 177. Find the LCM of two numbers
+    fun lcm_177(a: Int, b: Int): Int {
+        if (a == 0 || b == 0) return 0
+        return kotlin.math.abs(a / gcd_176(a, b) * b)
+    }
+
+    // 178. Get initials from full name string (e.g. "John Doe" -> "J.D.")
+    fun getInitials_178(fullName: String): String =
+        fullName.split(" ").filter { it.isNotEmpty() }.map { it[0].uppercaseChar() }.joinToString(".") + "."
+
+    // 179. Check if a year is a leap year
+    fun isLeapYear_179(year: Int): Boolean =
+        (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+
+    // 180. Convert list of strings to a map of string -> length
+    fun stringLengthMap_180(list: List<String>): Map<String, Int> =
+        list.associateWith { it.length }
+
+    // 181. Check if a list is a palindrome
+    fun <T> isPalindromeList_181(list: List<T>): Boolean =
+        list == list.reversed()
+
+    // 182. Get frequency map of characters in a string
+    fun charFrequency_182(s: String): Map<Char, Int> =
+        s.groupingBy { it }.eachCount()
+
+    // 183. Check if two strings are rotations of each other
+    fun areRotations_183(s1: String, s2: String): Boolean =
+        s1.length == s2.length && (s1 + s1).contains(s2)
+
+    // 184. Convert integer to binary string
+    fun intToBinary_184(n: Int): String = Integer.toBinaryString(n)
+
+    // 185. Convert binary string to integer
+    fun binaryToInt_185(bin: String): Int = Integer.parseInt(bin, 2)
+
+    // 186. Capitalize only the first letter of a string
+    fun capitalizeFirst_186(s: String): String =
+        s.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+
+    // 187. Find all indices of a character in a string
+    fun indicesOfChar_187(s: String, c: Char): List<Int> =
+        s.mapIndexedNotNull { idx, ch -> if (ch == c) idx else null }
+
+    // 188. Convert list of strings to lowercase
+    fun toLowerCaseList_188(list: List<String>): List<String> = list.map { it.lowercase() }
+
+    // 189. Calculate the sum of squares of numbers in a list
+    fun sumOfSquares_189(list: List<Int>): Int = list.sumOf { it * it }
+
+    // 190. Find median of a sorted list
+    fun medianSorted_190(list: List<Double>): Double? {
+        if (list.isEmpty()) return null
+        val mid = list.size / 2
+        return if (list.size % 2 == 1) list[mid] else (list[mid - 1] + list[mid]) / 2
+    }
+
+    // 191. Calculate standard deviation of a list of numbers
+    fun standardDeviation_191(list: List<Double>): Double {
+        if (list.isEmpty()) return 0.0
+        val mean = list.average()
+        val variance = list.sumOf { (it - mean) * (it - mean) } / list.size
+        return kotlin.math.sqrt(variance)
+    }
+
+    // 192. Convert list of Int to comma separated string
+    fun intListToCSV_192(list: List<Int>): String = list.joinToString(",")
+
+    // 193. Convert CSV string to list of Int
+    fun csvToIntList_193(csv: String): List<Int> =
+        csv.split(",").mapNotNull { it.trim().toIntOrNull() }
+
+    // 194. Repeat a character n times as a string
+    fun repeatChar_194(c: Char, n: Int): String = c.toString().repeat(n)
+
+    // 195. Check if a number is prime (naive)
+    fun isPrime_195(n: Int): Boolean {
+        if (n < 2) return false
+        for (i in 2..kotlin.math.sqrt(n.toDouble()).toInt()) {
+            if (n % i == 0) return false
+        }
+        return true
+    }
+
+    // 196. Convert List of Boolean to Int (treat true as 1, false as 0)
+    fun booleanListToInt_196(list: List<Boolean>): Int {
+        var result = 0
+        for (b in list) {
+            result = (result shl 1) or if (b) 1 else 0
+        }
+        return result
+    }
+
+    // 197. Convert Int to List of Boolean (bits)
+    fun intToBooleanList_197(n: Int, size: Int): List<Boolean> {
+        val list = mutableListOf<Boolean>()
+        for (i in size - 1 downTo 0) {
+            list.add(n and (1 shl i) != 0)
+        }
+        return list
+    }
+
+    // 198. Replace vowels in a string with a given character
+    fun replaceVowels_198(s: String, replacement: Char): String {
+        val vowels = "aeiouAEIOU"
+        return s.map { if (vowels.contains(it)) replacement else it }.joinToString("")
+    }
+
+    // 199. Convert a list of pairs to a map
+    fun <K, V> pairsToMap_199(pairs: List<Pair<K, V>>): Map<K, V> =
+        pairs.toMap()
+
+    // 200. Remove all punctuation from a string
+    fun removePunctuation_200(s: String): String =
+        s.filter { it.isLetterOrDigit() || it.isWhitespace() }
 }
 
