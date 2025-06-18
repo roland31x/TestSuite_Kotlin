@@ -1011,5 +1011,309 @@ object Utils {
     // 200. Remove all punctuation from a string
     fun removePunctuation_200(s: String): String =
         s.filter { it.isLetterOrDigit() || it.isWhitespace() }
+
+    // 201. Calculate the dot product of two vectors
+    fun dotProduct_201(vec1: List<Double>, vec2: List<Double>): Double {
+        require(vec1.size == vec2.size) { "Vectors must be of same size" }
+        return vec1.indices.sumOf { vec1[it] * vec2[it] }
+    }
+
+    // 202. Calculate the cross product of two 3D vectors
+    fun crossProduct_202(a: List<Double>, b: List<Double>): List<Double> {
+        require(a.size == 3 && b.size == 3) { "Both vectors must be 3D" }
+        return listOf(
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0]
+        )
+    }
+
+    // 203. Normalize a vector
+    fun normalize_203(vec: List<Double>): List<Double> {
+        val length = sqrt(vec.sumOf { it * it })
+        require(length != 0.0) { "Zero vector cannot be normalized" }
+        return vec.map { it / length }
+    }
+
+    // 204. Generate a random integer between min and max (inclusive)
+    fun randomInt_204(min: Int, max: Int): Int = (min..max).random()
+
+    // 205. Generate a random double between min and max
+    fun randomDouble_205(min: Double, max: Double): Double = min + Math.random() * (max - min)
+
+    // 206. Find the second largest element in a list of Ints
+    fun secondLargest_206(list: List<Int>): Int? {
+        if (list.size < 2) return null
+        val sorted = list.distinct().sortedDescending()
+        return if (sorted.size >= 2) sorted[1] else null
+    }
+
+    // 207. Convert Celsius to Fahrenheit
+    fun celsiusToFahrenheit_207(c: Double): Double = c * 9 / 5 + 32
+
+    // 208. Convert Fahrenheit to Celsius
+    fun fahrenheitToCelsius_208(f: Double): Double = (f - 32) * 5 / 9
+
+    // 209. Get the extension of a filename
+    fun getFileExtension_209(filename: String): String =
+        filename.substringAfterLast('.', "")
+
+    // 210. Check if a list contains duplicates
+    fun <T> hasDuplicates_210(list: List<T>): Boolean =
+        list.size != list.toSet().size
+
+    // 211. Find indices of all even numbers in a list
+    fun indicesOfEven_211(list: List<Int>): List<Int> =
+        list.mapIndexedNotNull { index, value -> if (value % 2 == 0) index else null }
+
+    // 212. Generate all subsets of a set
+    fun <T> allSubsets_212(set: List<T>): List<List<T>> {
+        val subsets = mutableListOf<List<T>>()
+        val n = set.size
+        for (i in 0 until (1 shl n)) {
+            val subset = mutableListOf<T>()
+            for (j in 0 until n) {
+                if ((i and (1 shl j)) != 0) subset.add(set[j])
+            }
+            subsets.add(subset)
+        }
+        return subsets
+    }
+
+    // 213. Flatten a nested list of lists into a single list
+    fun <T> flatten_213(nested: List<List<T>>): List<T> = nested.flatten()
+
+    // 214. Swap two elements in a mutable list by their indices
+    fun <T> swap_214(list: MutableList<T>, i: Int, j: Int) {
+        require(i in list.indices && j in list.indices) { "Index out of bounds" }
+        val temp = list[i]
+        list[i] = list[j]
+        list[j] = temp
+    }
+
+    // 215. Calculate the product of all elements in a list
+    fun product_215(list: List<Int>): Long = list.fold(1L) { acc, i -> acc * i }
+
+    // 216. Find the longest string in a list
+    fun longestString_216(list: List<String>): String? = list.maxByOrNull { it.length }
+
+    // 217. Check if a string is a palindrome ignoring case and non-alphanumeric
+    fun isPalindromeIgnoreCase_217(s: String): Boolean {
+        val filtered = s.filter { it.isLetterOrDigit() }.lowercase()
+        return filtered == filtered.reversed()
+    }
+
+    // 218. Count vowels in a string
+    fun countVowels_218(s: String): Int {
+        val vowels = "aeiouAEIOU"
+        return s.count { vowels.contains(it) }
+    }
+
+    // 219. Generate a list of prime numbers up to n using sieve of Eratosthenes
+    fun primesUpTo_219(n: Int): List<Int> {
+        if (n < 2) return emptyList()
+        val sieve = BooleanArray(n + 1) { true }
+        sieve[0] = false
+        sieve[1] = false
+        for (i in 2..sqrt(n.toDouble()).toInt()) {
+            if (sieve[i]) {
+                for (j in i * i..n step i) {
+                    sieve[j] = false
+                }
+            }
+        }
+        return sieve.indices.filter { sieve[it] }
+    }
+
+    // 220. Check if all elements in a list satisfy a predicate
+    fun <T> allSatisfy_220(list: List<T>, predicate: (T) -> Boolean): Boolean =
+        list.all(predicate)
+
+    // 221. Check if any element in a list satisfies a predicate
+    fun <T> anySatisfy_221(list: List<T>, predicate: (T) -> Boolean): Boolean =
+        list.any(predicate)
+
+    // 222. Remove all null elements from a list
+    fun <T> removeNulls_222(list: List<T?>): List<T> = list.filterNotNull()
+
+    // 223. Rotate a list to the right by n steps
+    fun <T> rotateRight_223(list: List<T>, n: Int): List<T> {
+        val size = list.size
+        if (size == 0) return list
+        val steps = n % size
+        return list.takeLast(steps) + list.dropLast(steps)
+    }
+
+    // 224. Rotate a list to the left by n steps
+    fun <T> rotateLeft_224(list: List<T>, n: Int): List<T> {
+        val size = list.size
+        if (size == 0) return list
+        val steps = n % size
+        return list.drop(steps) + list.take(steps)
+    }
+
+    // 225. Capitalize every word in a string
+    fun capitalizeWords_225(s: String): String =
+        s.split(" ").joinToString(" ") { it.replaceFirstChar { ch -> ch.uppercase() } }
+
+    // 226. Calculate the sum of ASCII values of characters in a string
+    fun asciiSum_226(s: String): Int = s.sumOf { it.code }
+
+    // 227. Count the number of words in a string
+    fun wordCount_227(s: String): Int = s.trim().split(Regex("\\s+")).size
+
+    // 228. Check if a list contains a sublist
+    fun <T> containsSublist_228(list: List<T>, sublist: List<T>): Boolean {
+        if (sublist.isEmpty()) return true
+        for (i in 0..list.size - sublist.size) {
+            if (list.subList(i, i + sublist.size) == sublist) return true
+        }
+        return false
+    }
+
+    // 229. Create a map from a list by grouping by a keySelector and counting occurrences
+    fun <T, K> groupCount_229(list: List<T>, keySelector: (T) -> K): Map<K, Int> =
+        list.groupingBy(keySelector).eachCount()
+
+    // 230. Reverse words in a sentence
+    fun reverseWords_230(s: String): String =
+        s.split(" ").reversed().joinToString(" ")
+
+    // 231. Calculate the sum of odd numbers in a list
+    fun sumOdd_231(list: List<Int>): Int = list.filter { it % 2 != 0 }.sum()
+
+    // 232. Generate a list of factorials from 0 to n
+    fun factorialList_232(n: Int): List<Long> {
+        require(n >= 0) { "n must be non-negative" }
+        val result = mutableListOf(1L)
+        for (i in 1..n) {
+            result.add(result.last() * i)
+        }
+        return result
+    }
+
+    // 233. Check if a string contains only digits
+    fun isNumeric_233(s: String): Boolean = s.all { it.isDigit() }
+
+    // 234. Replace all occurrences of a substring with another substring
+    fun replaceAll_234(s: String, old: String, new: String): String = s.replace(old, new)
+
+    // 235. Extract numbers from a string as list of Ints
+    fun extractNumbers_235(s: String): List<Int> =
+        Regex("\\d+").findAll(s).map { it.value.toInt() }.toList()
+
+    // 236. Find the longest increasing subsequence length (O(n^2) naive)
+    fun longestIncreasingSubsequenceLength_236(arr: List<Int>): Int {
+        val n = arr.size
+        if (n == 0) return 0
+        val dp = IntArray(n) { 1 }
+        for (i in 1 until n) {
+            for (j in 0 until i) {
+                if (arr[i] > arr[j]) {
+                    dp[i] = maxOf(dp[i], dp[j] + 1)
+                }
+            }
+        }
+        return dp.maxOrNull() ?: 1
+    }
+
+    // 237. Find the element with maximum frequency in a list
+    fun <T> maxFrequencyElement_237(list: List<T>): T? =
+        list.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+
+    // 238. Convert a map to a query string
+    fun mapToQueryString_238(map: Map<String, String>): String =
+        map.entries.joinToString("&") { "${it.key}=${it.value}" }
+
+    // 239. Check if two lists are equal ignoring order
+    fun <T> listsEqualIgnoreOrder_239(list1: List<T>, list2: List<T>): Boolean =
+        list1.groupingBy { it }.eachCount() == list2.groupingBy { it }.eachCount()
+
+    // 240. Count the number of uppercase letters in a string
+    fun countUppercase_240(s: String): Int = s.count { it.isUpperCase() }
+
+    // 241. Compute the power of a number with integer exponent (iterative)
+    fun powInt_241(base: Double, exp: Int): Double {
+        var result = 1.0
+        var e = kotlin.math.abs(exp)
+        var b = base
+        while (e > 0) {
+            if (e and 1 == 1) result *= b
+            b *= b
+            e = e shr 1
+        }
+        return if (exp < 0) 1 / result else result
+    }
+
+    // 242. Check if a string is a valid IPv4 address
+    fun isValidIPv4_242(ip: String): Boolean {
+        val parts = ip.split(".")
+        if (parts.size != 4) return false
+        return parts.all {
+            it.toIntOrNull()?.let { num -> num in 0..255 } ?: false
+        }
+    }
+
+    // 243. Calculate the Manhattan distance between two points
+    fun manhattanDistance_243(x1: Int, y1: Int, x2: Int, y2: Int): Int =
+        abs(x1 - x2) + abs(y1 - y2)
+
+    // 244. Merge two sorted lists into a single sorted list
+    fun <T : Comparable<T>> mergeSorted_244(list1: List<T>, list2: List<T>): List<T> {
+        val result = mutableListOf<T>()
+        var i = 0
+        var j = 0
+        while (i < list1.size && j < list2.size) {
+            if (list1[i] <= list2[j]) {
+                result.add(list1[i++])
+            } else {
+                result.add(list2[j++])
+            }
+        }
+        while (i < list1.size) result.add(list1[i++])
+        while (j < list2.size) result.add(list2[j++])
+        return result
+    }
+
+    // 245. Count occurrences of a character in a string
+    fun countChar_245(s: String, ch: Char): Int =
+        s.count { it == ch }
+
+    // 246. Check if a list is sorted ascending
+    fun <T : Comparable<T>> isSorted_246(list: List<T>): Boolean =
+        list.zipWithNext().all { it.first <= it.second }
+
+    // 247. Remove all occurrences of an element from a list
+    fun <T> removeAllOccurrences_247(list: List<T>, element: T): List<T> =
+        list.filter { it != element }
+
+    // 248. Generate Fibonacci sequence up to n elements
+    fun fibonacci_248(n: Int): List<Long> {
+        require(n >= 0) { "n must be non-negative" }
+        val fibs = mutableListOf<Long>()
+        var a = 0L
+        var b = 1L
+        repeat(n) {
+            fibs.add(a)
+            val tmp = a + b
+            a = b
+            b = tmp
+        }
+        return fibs
+    }
+
+    // 249. Get the most frequent character in a string
+    fun mostFrequentChar_249(s: String): Char? =
+        s.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+
+    // 250. Swap two variables without a temporary variable (ints)
+    fun swapInts_250(a: Int, b: Int): Pair<Int, Int> {
+        var x = a
+        var y = b
+        x = x + y
+        y = x - y
+        x = x - y
+        return Pair(x, y)
+    }
 }
 
